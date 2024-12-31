@@ -1,24 +1,44 @@
-import cv2
+import time
 import pyautogui
-
-from utili import img_match
+import pyperclip
 
 
 class BattleProcess():
     def __init__(self):
-        pass
+        self.counter = 1
+        self.pokemmo =1
+        self.flush = 0
 
-    def battleDetect(self,window):
-        left, top, width, height = window.left, window.top, window.width, window.height
-        # 截取当前窗口区域的截图
-        screenshot = pyautogui.screenshot(region=(left, top, width, height))
+    def is_battle(self):
+        # 将鼠标移动到(1560, 850)的位置
+        pyautogui.moveTo(1610, 820)
+        # 执行右键点击
+        pyautogui.click(button='right')
+        pyautogui.moveTo(1640, 835)
+        pyautogui.click()
+        context=pyperclip.paste()
+        if "闪光" in context:
+            self.flush = 1
 
-        # 保存截图
-        screenshot.save("./template/BattleDetect.png")
-        screenshot = cv2.imread("./template/BattleDetect.png")
-        template = cv2.imread("./template/BattleDetect_template.png")
-        flag=img_match(screenshot, template)
-        return flag
+        if "成功逃脱" in context:
+            self.counter=1
+
+        elif "回合开始" in context:
+            self.escape()
+            return False
+
+        elif "派出了" in context:
+            pass
+        else:
+            print(context,"\t",self.pokemmo)
+            self.pokemmo+=1
 
     def escape(self):
-        pass
+        if not self.flush:
+            # 2020,650
+            pyautogui.moveTo(2020,650,1)
+            pyautogui.click()
+            time.sleep(1)
+        else:
+            print("闪闪闪闪闪闪闪闪闪闪闪闪闪闪闪闪闪闪闪闪闪闪闪闪")
+
