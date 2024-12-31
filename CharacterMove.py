@@ -13,8 +13,8 @@ class CharacterMove():
         pyautogui.keyUp(direction)
 
     # 左右横移
-    def RandomMove(self):
+    def RandomMove(self,steps):
         pyautogui.keyDown("space")
-        self.oneWayMove(3,"a")
-        self.oneWayMove(3, "d")
+        self.oneWayMove(steps+1,"a")
+        self.oneWayMove(steps, "d")
         pyautogui.keyUp("space")

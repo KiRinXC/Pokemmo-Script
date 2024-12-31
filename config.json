@@ -1,6 +1,1 @@
-{
-  "title": "PokeMMO",
-  "screen_size": [2560,1600],
-  "window_position": [1460,0],
-  "window_size": [1100,900]
-}
+{"title": "PokeMMO", "win_size": [1100, 900], "scr_size": [2560, 1600], "win_position": [1460, 0], "battle_offset": [150, 820], "copy_region": {"left": 160, "top": 825, "right": 265, "bottom": 860}, "no_region": {"left": 470, "top": 500, "right": 630, "bottom": 610}, "rate": 1.2, "battle_info": 0, "pokemmo_info": 1}
