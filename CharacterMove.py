@@ -1,6 +1,6 @@
 import time
 import pyautogui
-
+import random
 class CharacterMove():
     def __init__(self):
         # 移动一步等于0.1秒
@@ -14,7 +14,7 @@ class CharacterMove():
 
     # 左右横移
     def RandomMove(self,steps):
-        pyautogui.keyDown("space")
+        if random.randint(1, 10) <= 5:
+            pyautogui.press('1')
         self.oneWayMove(steps+1,"a")
         self.oneWayMove(steps, "d")
-        pyautogui.keyUp("space")
