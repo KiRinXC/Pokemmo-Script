@@ -24,6 +24,7 @@ class MouseMove:
             self.copy_reg = config['copy_reg']['data']
             self.esc_reg = config['esc_reg']['data']
             self.no_reg = config['no_reg']['data']
+            self.pokeinfo_reg = config['pokeinfo_reg']['data']
             self.win_p =[self.win_reg[0], self.win_reg[1]]
         self.GR = GenerateRandom()
 
@@ -55,14 +56,16 @@ class MouseMove:
         :return: 对战框最底部的信息
         '''
         # 添加移动噪声
-        if random.randint(1,10) < 3:
-            self.random_move(scope=[0,0.1],count=5)
+        self.random_move(level=3,scope=[0,0.1],count=5)
         # 对战底部框相对于游戏窗口位置
         temp_x,temp_y = self.GR.gen_loc(self.bat_reg)
         # 对战底部框真实位置
         x,y = self.loc_add([temp_x,temp_y],self.win_p)
         # 移动到对战框底部
         pyautogui.moveTo(x, y, self.GR.gen_sec([0.1,0.3]))
+        pyautogui.click()
+        # 移动滚轮显示最下方的文字
+        pyautogui.scroll(-30000)
         # 右键
         pyautogui.click(button="right")
 
@@ -71,7 +74,7 @@ class MouseMove:
 
     def copy_box_move(self,x,y):
         '''
-        移动到复制框
+        移动到复制框,无随机噪声，为了检测速度更快
         :param x: 鼠标真实x
         :param y: 鼠标真实y
         :return:  对战框最底部的信息
@@ -100,11 +103,10 @@ class MouseMove:
 
     def no_box_move(self):
         '''
-        防止逃闪
+        防止逃闪,无随机噪声
         :return:
         '''
-        # 添加移动噪声
-        self.random_move(level=8,scope=[0, 0.1], count=10)
+        self.random_move(scope=[0, 0.3], level=6, count=10)
         # 逃跑框相对于游戏窗口的位置
         temp_x, temp_y = self.GR.gen_loc(self.no_reg)
         # 逃跑框的真实位置
@@ -112,4 +114,20 @@ class MouseMove:
         pyautogui.moveTo(x, y, self.GR.gen_sec([0, 0.5]))
         pyautogui.click()
 
+    def pokeinfo_box_move(self):
+        '''
+        关闭宝可梦资料框，有随机噪声
+        :return:
+        '''
+        # 添加移动噪声
+        self.random_move(level=2,scope=[0, 0.1], count=10)
+        # 逃跑框相对于游戏窗口的位置
+        temp_x, temp_y = self.GR.gen_loc(self.pokeinfo_reg)
+        # 逃跑框的真实位置
+        x,y = self.loc_add([temp_x,temp_y],self.win_p)
+        pyautogui.moveTo(x, y, self.GR.gen_sec([0, 0.5]))
+        pyautogui.click()
 
+#
+# 嗷! 差点就抓到了!
+# 抓到了! 收服到

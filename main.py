@@ -33,7 +33,7 @@ if __name__ == '__main__':
     def character_loop():
         global should_continue
         while should_continue:
-            character.RandomMove(5)
+            character.RandomMove([3,5])
 
     # 创建线程
     thread1 = threading.Thread(target=quit_loop)  # 注意这里不需要括号

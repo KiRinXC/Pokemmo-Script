@@ -53,12 +53,12 @@ def mouse_position():
 
 
 # 屏幕截图
-def screenshot(window):
+def screenshot(window,path="window_screenshot.png"):
     left, top, width, height = window.left, window.top, window.width, window.height
     # 截图窗口区域
     screenshot = pyautogui.screenshot(region=(left, top, width, height))
     # 保存截图
-    screenshot.save('window_screenshot.png')
+    screenshot.save(path)
 
 
 # 对图片的元素划定范围
@@ -81,8 +81,8 @@ def window_markup(offset, path="window_screenshot.png"):
 # window = adjust_window()
 # screenshot(window)
 # window_markup([
-#     470,
-#     520,
-#     630,
-#     610
+#     832,
+#     285,
+#     852,
+#     310
 # ])

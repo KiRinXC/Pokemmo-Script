@@ -1,10 +1,14 @@
 import time
 import pyautogui
-import random
+
+from GenerateRandom import GenerateRandom
+
+
 class CharacterMove():
     def __init__(self):
         # 移动一步等于0.1秒
         self.path=0.2
+        self.GR = GenerateRandom()
 
     # 单方向移动
     def oneWayMove(self,steps,direction):
@@ -12,9 +16,10 @@ class CharacterMove():
         time.sleep(steps*self.path)
         pyautogui.keyUp(direction)
 
-    # 左右横移
-    def RandomMove(self,steps):
-        if random.randint(1, 10) <= 5:
-            pyautogui.press('1')
-        self.oneWayMove(steps+1,"a")
-        self.oneWayMove(steps, "d")
+    # 左右横移 ,偏左
+    def RandomMove(self,scope):
+        # 风速鞋只要按一次空格就行
+        # pyautogui.keyDown('space')
+        self.oneWayMove(self.GR.gen_sec(scope)+1,"a")
+        self.oneWayMove(self.GR.gen_sec(scope), "d")
+        # pyautogui.keyUp('space')
