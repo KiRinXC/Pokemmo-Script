@@ -1,6 +1,3 @@
-import time
-import random
-import numpy as np
 import pyautogui
 import pygetwindow
 import json
@@ -9,7 +6,10 @@ from PIL import Image, ImageDraw
 
 
 def adjust_window():
-    with open('config.json', 'r', encoding='utf-8') as data:
+    '''
+    调整窗口并激活
+    '''
+    with open('./Data/config.json', 'r', encoding='utf-8') as data:
         config = json.load(data)
     # 获取屏幕尺寸并添加至config中
     scr_x, scr_y = pyautogui.size()
@@ -20,10 +20,10 @@ def adjust_window():
 
     # 确定游戏界面的左上角起始坐标 并添加至config
     win_p_x, win_p_y = scr_x - win_w, 0
-    config["win_position"] = [win_p_x, win_p_y, win_p_x + win_w, win_p_y + win_h]
+    config["win_reg"]["data"] = [win_p_x, win_p_y, win_p_x + win_w, win_p_y + win_h]
 
     # 更新config
-    with open("config.json", "w", encoding='utf-8') as data:
+    with open("./Data/config.json", "w", encoding='utf-8') as data:
         json.dump(config, data)
     # 获取当前所有已开启的窗口
     windows = pygetwindow.getAllWindows()
@@ -46,14 +46,13 @@ def adjust_window():
     return False
 
 
-def mouse_position():
-    time.sleep(3)
-    x, y = pyautogui.position()
-    print(f"当前鼠标位置：({x}, {y})")
-
-
-# 屏幕截图
 def screenshot(window,path="window_screenshot.png"):
+    '''
+    游戏窗口屏幕截图
+    :param window: 游戏窗口
+    :param path: 存放路径
+    :return:
+    '''
     left, top, width, height = window.left, window.top, window.width, window.height
     # 截图窗口区域
     screenshot = pyautogui.screenshot(region=(left, top, width, height))
@@ -61,8 +60,13 @@ def screenshot(window,path="window_screenshot.png"):
     screenshot.save(path)
 
 
-# 对图片的元素划定范围
+
 def window_markup(offset, path="window_screenshot.png"):
+    '''
+    对图片的元素划定范围
+    :param offset: 指定区域
+    :param path: 图片存放路径
+    '''
     # 打开图像
     image = Image.open(path)
     # 创建一个绘图对象
@@ -76,13 +80,3 @@ def window_markup(offset, path="window_screenshot.png"):
 
     # 保存绘制了矩形框的图像
     image.save("window_markup.png")
-
-
-# window = adjust_window()
-# screenshot(window)
-# window_markup([
-#     832,
-#     285,
-#     852,
-#     310
-# ])
