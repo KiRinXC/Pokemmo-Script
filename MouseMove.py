@@ -157,7 +157,7 @@ class MouseMove:
         time.sleep(self.GR.gen_1d([1, 2]))
         temp_x, temp_y = self.GR.gen_2d(self.bag_reg)
         x, y = self.loc_add([temp_x, temp_y], self.win_p)
-        pyautogui.moveTo(x, y, self.GR.gen_1d([0, 0.1]))
+        pyautogui.moveTo(x, y, self.GR.gen_1d([1, 2]))
         pyautogui.click()
 
     def skill_box_move(self)->None:
