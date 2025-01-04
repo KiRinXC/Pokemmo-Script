@@ -1,6 +1,7 @@
 import json
 import threading
 import time
+import logging
 
 from MouseMove import MouseMove
 from GenerateRandom import GenerateRandom
@@ -29,10 +30,12 @@ class BattleDetect():
         self.target = target
         # 暂停移动事件
         self.move_event = move_event
+        # 生成日志
+        self.log=self.logger()
 
         self.MM = MouseMove()
         self.GR = GenerateRandom()
-        self.PC = PokeCatch(self.target)
+        self.PC = PokeCatch(self.target,self.log)
 
         # 遇怪数量
         self.poke_num = 0
@@ -44,18 +47,35 @@ class BattleDetect():
         # 记录窗口的大小
         self.max_len = 5
         self.rec_win = Window(self.max_len)
+
         with open('./Data/config.json', 'r', encoding='utf-8') as data:
             config = json.load(data)
             self.is_test = config["is_test"]
-
+            data.close()
         # 如果不是测试，就需要记录这两个数据
         if self.is_test == 0:
             with open(f'./Data/{self.target}.json', 'r', encoding='utf-8') as data:
                 exp = json.load(data)
                 self.poke_num = exp["poke_num"]
                 self.flash_num = exp["flash_num"]
+                data.close()
 
+    def logger(self):
+        # 创建日志记录器
+        logger = logging.getLogger('BattleDetect')
+        logger.setLevel(logging.DEBUG)
 
+        # 创建文件处理器，并指定编码为utf-8
+        file_handler = logging.FileHandler(f'./Data/{self.target}_{time.time()}', encoding='utf-8')
+        file_handler.setLevel(logging.DEBUG)
+
+        # 创建日志格式
+        formatter = logging.Formatter('%(asctime)s - %(message)s')
+        file_handler.setFormatter(formatter)
+
+        # 将文件处理器添加到日志记录器
+        logger.addHandler(file_handler)
+        return logger
 
     def recorder(self, info: str) -> None:
         '''
@@ -68,18 +88,20 @@ class BattleDetect():
     def win_out(self, is_input: bool = False):
         # 获取窗口所有信息
         win = self.rec_win.get_window()
-        # 如果在测试中，则需要输出缓冲站的信息
-        if self.is_test != 0:
+        # 精灵重复计数调用
+        if is_input:
+            # 只输出遇到的精灵数量,闪光数量,精灵名称
+            string = str(self.poke_num) + "\t" + str(self.flash_num) + '\t' + win[0]
+            print(string)
+        # 普通调用
+        else:
+            # 需要将缓冲站的信息写入日志
             # 将窗口所有信息拼接成字符串
             string = str(self.poke_num) + "  " + str(self.flash_num) + '\t'
             for i in range(len(win)):
                 string += win[i] + '\t'
-            print(string)
-        elif is_input:
-            # 只输出遇到的精灵数量,闪光数量,精灵名称
-            string = str(self.poke_num) + "\t" + str(self.flash_num) + '\t' + win[0]
-            print(string)
-        else:
+            # 记录日志
+            self.log.info(string)
             pass
 
     def move_info_detect(self) -> None:
@@ -124,9 +146,9 @@ class BattleDetect():
                 with open(f'./Data/{self.target}.json', 'w', encoding='utf-8') as f:
                     json.dump({'poke_num': self.poke_num,
                                'flash_num': self.flash_num}, f)
+                # 输出简易的遇怪闪光比
+                self.win_out(is_input=True)
 
-            # 输出简易的遇怪闪光比
-            self.win_out(is_input=True)
         else:
             # 这是回合结束/观战的信息
             self.is_escape()
