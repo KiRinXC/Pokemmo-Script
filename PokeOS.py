@@ -1,4 +1,5 @@
 import json
+import os
 import threading
 import time
 
@@ -10,9 +11,13 @@ class CatchFlash():
         self.target = target
         self.quit_event = threading.Event()
         self.move_event = threading.Event()
-        with open(f"Data/{self.target}.json", "w", encoding='utf-8') as f:
-            json.dump({'poke_num': 0,
-                       'flash_num': 0}, f)
+        file_path = f"Data/{self.target}.json"
+        # 检查文件是否存在
+        if not os.path.exists(file_path):
+            # 然后再打开文件进行读取
+            with open(file_path, 'w', encoding='utf-8') as f:
+                json.dump({'poke_num': 0,
+                           'flash_num': 0}, f)
         self.BD = BattleDetect(move_event=self.move_event, target=self.target)
         self.CM = CharacterMove(move_event=self.move_event)
 
