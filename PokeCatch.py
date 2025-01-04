@@ -1,28 +1,30 @@
+import logging
 import time
 import pyautogui
 
 from GenerateRandom import GenerateRandom
 from MouseMove import MouseMove
 class PokeCatch():
-    def __init__(self,target:str):
+    def __init__(self,target:str ,logger:logging.Logger):
         self.MM=MouseMove()
         self.GR =GenerateRandom()
         self.target=target
+        self.log=logger
     def catch_info_detect(self):
         '''
         抓精灵时，分析对战框中的信息
         '''
-        # 睡眠一会
-        time.sleep(self.GR.gen_1d([0.2,0.5]))
-        # 获取对战信息
-        info = self.MM.bat_box_move()
-
-        catch_success = ["收"  in info , "传送" in info , "找到" in info,self.target in info]
-
-        if any(catch_success):
-            return True
-        else:
-            return False
+        # 差不多要重复20次读取对战框的内容
+        for i in range(20):
+            # 睡眠一会
+            time.sleep(self.GR.gen_1d([0.1,0.3]))
+            # 获取对战信息
+            info = self.MM.bat_box_move()
+            self.log.info(info)
+            catch_success = ["收"  in info , "传送" in info , "找到" in info]
+            if any(catch_success):
+                return True
+        return False
 
     def release_skill(self):
         '''
@@ -49,7 +51,6 @@ class PokeCatch():
         # 关闭宝可梦资料框，激活对战页面，以免战斗框被挡住
         flag=False
         while not flag:
-            self.MM.pokeinfo_box_move()
             self.MM.pokeinfo_box_move()
             # 点击背包
             self.MM.bag_box_move()
