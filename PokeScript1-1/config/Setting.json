@@ -1,0 +1,8 @@
+{
+  "black_swan": {
+    "comment": "模拟随机挂机时间",
+    "pro": 5000
+  },
+  "detect_battle_confidence": 7,
+  "B_confidence": 2
+}

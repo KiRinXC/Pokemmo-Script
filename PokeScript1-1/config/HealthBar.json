@@ -1,0 +1,28 @@
+{
+  "info": "The health bar position corresponding to each number of pokemons",
+  "1": [
+    170,
+    200,
+    380,
+    45
+  ],
+  "2": [
+    [],
+    [],
+    []
+  ],
+  "3": [
+    [],
+    [],
+    [],
+    []
+  ],
+  "5": [
+    [],
+    [],
+    [],
+    [],
+    [],
+    []
+  ]
+}
