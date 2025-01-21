@@ -2,7 +2,6 @@ import json
 import random
 from typing import List, Tuple
 import numpy as np
-from scipy.stats import multivariate_normal
 
 
 # 主要是生成一维(时间、步数)和二维(区域内一点坐标)随机数
@@ -68,3 +67,7 @@ class GenerateRandom:
             return True
         else:
             return False
+
+    def gen_uniform(self,scope):
+        return random.uniform(scope[0],scope[1])
+

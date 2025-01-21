@@ -2,7 +2,7 @@ import cv2
 import easyocr
 
 # 读取图片
-img = cv2.imread('PokeScript1-1/Pic/flash.png')
+img = cv2.imread('PokeScript2-0/Pic/flash.png')
 
 # 定义要识别的区域
 x, y, w, h = 170,200,380,45

@@ -4,5 +4,8 @@
     "pro": 5000
   },
   "detect_battle_confidence": 7,
-  "B_confidence": 2
+  "B_confidence": 2,
+  "escape_confidence":0.05,
+  "pokeball_confidence": 0.05,
+  "pokedex_confidence":4
 }

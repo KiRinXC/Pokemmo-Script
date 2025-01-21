@@ -79,4 +79,4 @@ def window_markup(offset, path="window_screenshot.png"):
     # 保存绘制了矩形框的图像
     image.save("window_markup.png")
 
-screenshot(adjust_window(),path="../PokeScript1-1/Pic/skill.png")
+screenshot(adjust_window(), path="../PokeScript2-0/Pic/perfume.png")

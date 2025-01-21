@@ -5,10 +5,10 @@ import hashlib
 import wmi
 
 class Encoder():
-    def __init__(self,type):
+    def __init__(self,type,name):
         computer = wmi.WMI()
         self.type = type
-        self.path = "config/Password.json"
+        self.path = f"config/Password_{name}.json"
         self.cpu_info = platform.processor()
         self.SKUNumber = computer.Win32_ComputerSystem()[0].SystemSKUNumber
         self.DNSHostName = computer.Win32_ComputerSystem()[0].DNSHostName
@@ -55,8 +55,8 @@ class Encoder():
     def is_run(self):
         if not os.path.exists(self.path):
             # 文件不存在 ，则认为是首次运行
-            print(">>" + str(self.base_key) + "<<")
-            a = input("烦请将>> <<内的信息发送给我，待我收到后，会将密钥提供给您。")
+            print("烦请将>>" + str(self.base_key) + "<<内的信息发送给我，待我收到后，会将密钥提供给您。")
+            a = input("请将我提供的密钥输入到这里>>>")
             if self.Key == a:
                 return self.store_key()
         else:
